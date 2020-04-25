@@ -15,10 +15,6 @@ class Modal extends Component {//Alternatively of course, you could keep this as
            nextProps.children !== this.props.children;
   }
 
-  componentWillUpdate() {
-    console.log('[Modal] will update');
-  }
-
   render() {
     return (
       <Aux>
