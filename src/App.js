@@ -35,6 +35,7 @@ class App extends Component {
           <Route path="/orders" component={Orders}/>
           {/* to be able to reach that, I'll also go into my components folder and there to navigation, navigation items into the navigation items component, here we got our links and I will add a new one, */}
           <Route path="/logout" component={Logout}/>
+          <Route path="/auth" component={Auth}/>
           <Route path="/" exact component={BurgerBuilder}/>
           <Redirect to="/" />
         </Switch>

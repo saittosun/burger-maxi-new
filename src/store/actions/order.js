@@ -18,7 +18,7 @@ export const purchaseBurgerFail = (error) => {
   }
 }
 
-// so that I can handle this in redux because this being a async normal action reaches redux which has the reducer.
+// so that I can handle this in redux because this being a async normal action reaches redux which has the reducer. 
 export const purchaseBurgerStart = () => {
   return {
     type: actionTypes.PURCHASE_BURGER_START

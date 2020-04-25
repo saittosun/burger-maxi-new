@@ -17,7 +17,9 @@ const sideDrawer = (props) => {//return something will not be the jsx code immed
       // we can simply set show like this and since it is a boolean property, we don't need to assign a value. Just by adding it, it will be set to true
     <Aux>
       <Backdrop show={props.open} clicked={props.closed}/>
-      <div className={attachedClasses.join(' ')}>
+      <div 
+        className={attachedClasses.join(' ')}
+        onClick={props.closed}>
         {/* <Logo height="11%" /> */}
         <div className={classes.Logo}>
           <Logo  />

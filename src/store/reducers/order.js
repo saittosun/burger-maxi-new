@@ -19,6 +19,7 @@ const reducer = (state = initialState, action) => {
       //   ...state,
       //   purchased: false
       // }
+      //It is dispatched when we click on order, when we send the order to the server,
     case actionTypes.PURCHASE_BURGER_START:
       return {
         ...state,
