@@ -37,7 +37,7 @@ class Orders extends Component {
     //   .catch(err => {
     //     this.setState({loading: false});
     //   });
-    this.props.onFetchOrders(this.props.token);
+    this.props.onFetchOrders(this.props.token, this.props.userId);
   }
 
   render() {
@@ -70,7 +70,8 @@ const mapStateToProps = state => {
     orders: state.order.orders,
     loading: state.order.loading,
     // not .order because I'm not interested in the order related slice of my state instead if we have a look at the index.js file where we combine the reducers, the auth reducer which sets up the state for the token, the auth reducer can be found on an auth property, so this is what we should access. So in orders, I should access state.auth.token, like this
-    token: state.auth.token
+    token: state.auth.token,
+    userId: state.auth.userId
   }
 }
 
@@ -79,7 +80,7 @@ const mapDispatchToProps = dispatch => {
   return {
     // fetchOrders() bu actioncreator
     // we have to get the token in the place where we call onFetchOrders
-    onFetchOrders: (token) => dispatch(actions.fetchOrders(token))
+    onFetchOrders: (token, userId) => dispatch(actions.fetchOrders(token, userId))
   }
 }
 

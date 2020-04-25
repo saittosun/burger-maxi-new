@@ -70,11 +70,12 @@ export const fetchOrdersStart = () => {
 }
 
 // make sure that we can still reach orders if we are authenticated and have a token. To do that, I need to go to the place where we actually send this orders request and that of course is the action creators
-export const fetchOrders = (token) => {
+export const fetchOrders = (token, userId) => {
   return dispatch => {
-    dispatch(fetchOrdersStart())
+    dispatch(fetchOrdersStart());
+    const queryParams = '?auth=' + token + '&orderBy="userId"&equalTo="' + userId + '"';
     // Here we essentially have to add our token, our token we got back from firebase when authenticating and then we can attach this (?auth=) token to this request. we received the token here when dispatching fetchOrders, fetch orders is of course dispatched in my orders container,
-    axios.get('/orders.json?auth=' + token)
+    axios.get('/orders.json' + queryParams)
       .then(res => {
         // res.data will hold the data we get from firebase
         console.log(res.data);
