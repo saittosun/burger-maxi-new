@@ -9,6 +9,7 @@ import Input from '../../../components/UI/Input/Input';
 import { connect } from 'react-redux';
 import withErrorHandler from '../../../hoc/withErrorHandler/withErrorHandler';
 import * as actions from '../../../store/actions/index';
+import { updateObject } from '../../../shared/utility';
 
 class ContactData extends Component {
   state = {
@@ -146,33 +147,50 @@ class ContactData extends Component {
 
   // I expect to get an event object as it will automatically be passed to me by react if this method is attached to an event listener which it of course is.
   // we also receive or need a second argument which is the input identifier so that we can reach out to our state, get the right element here, the right object and adjust its value.
-  inputChangedHandler = (e, inputIdentifer) => {
-    console.log(e.target.value)
-    // this ID which is just a key from our object and that's exactly what I need. These keys here in our state object (name, street, zipcode and so on), these are the identifiers of the inputs and exactly the objects I need to adjust it. Now of course, I can use that information to update the value, the problem just is I of course can't access this.state.orderForm identifier and update the value, this is not how we mutate the state. Instead we have to mutate it, well immutably and we do this with set state.
-    const updatedOrderForm = {
-      ...this.state.orderForm
-    }
+  // inputChangedHandler = (e, inputIdentifer) => {
+  //   console.log(e.target.value)
+  //   // this ID which is just a key from our object and that's exactly what I need. These keys here in our state object (name, street, zipcode and so on), these are the identifiers of the inputs and exactly the objects I need to adjust it. Now of course, I can use that information to update the value, the problem just is I of course can't access this.state.orderForm identifier and update the value, this is not how we mutate the state. Instead we have to mutate it, well immutably and we do this with set state.
+  //   const updatedOrderForm = {
+  //     ...this.state.orderForm
+  //   }
 
-    // I'll create a new object and used to spread operator here to create a clone. Now I can safely change the value of the updatedFormElement because it is again a clone.
-    const updatedFormElement = {
-      ...updatedOrderForm[inputIdentifer]
-    }
-    updatedFormElement.value = e.target.value;
-    updatedFormElement.valid = (
-      this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
-    )
-    updatedFormElement.touched = true;
-    updatedOrderForm[inputIdentifer] = updatedFormElement;
-    console.log(updatedFormElement)
+  //   // I'll create a new object and used to spread operator here to create a clone. Now I can safely change the value of the updatedFormElement because it is again a clone.
+  //   const updatedFormElement = {
+  //     ...updatedOrderForm[inputIdentifer]
+  //   }
+  //   updatedFormElement.value = e.target.value;
+  //   updatedFormElement.valid = (
+  //     this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
+  //   )
+  //   updatedFormElement.touched = true;
+  //   updatedOrderForm[inputIdentifer] = updatedFormElement;
+  //   console.log(updatedFormElement)
+
+  //   let formIsValid = true;
+  //   // updatedOrderForm is the state object which contains all my elements
+  //   for (let inputIdentifier in updatedOrderForm) {
+  //     formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid
+  //   }
+  //   console.log(formIsValid)
+
+  //   //  the right side here, FormIsValid is referring to my variable, FormIsValid, the left side is referring to the property in the state I want to update which of course is this FormIsValid property here.
+  //   this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid})
+  // }
+
+  inputChangedHandler = (e, inputIdentifer) => {
+    const updatedFormElement = updateObject(this.state.orderForm[inputIdentifer], {
+      value: e.target.value,
+      valid: this.checkValidity(e.target.value, this.state.orderForm[inputIdentifer].validation),
+      touched: true
+    })
+    const updatedOrderForm = updateObject(this.state.orderForm, {
+      [inputIdentifer]: updatedFormElement
+    })
 
     let formIsValid = true;
-    // updatedOrderForm is the state object which contains all my elements
     for (let inputIdentifier in updatedOrderForm) {
       formIsValid = updatedOrderForm[inputIdentifier].valid && formIsValid
     }
-    console.log(formIsValid)
-
-    //  the right side here, FormIsValid is referring to my variable, FormIsValid, the left side is referring to the property in the state I want to update which of course is this FormIsValid property here.
     this.setState({orderForm: updatedOrderForm, formIsValid: formIsValid})
   }
 

@@ -8,6 +8,7 @@ import * as actions from '../../store/actions/index';
 import { connect } from 'react-redux';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import { Redirect } from 'react-router-dom';
+import { updateObject } from '../../shared/utility';
 
 class Auth extends Component {
   // I want to use my custom input and button components, just as I use them in the contact data component or container. I'll also manage my form through the state of this auth container, not through redux because I'm only talking about the local state, the values the user entered into their form inputs and so on and it makes more sense to me to use them and to manage them inside the container with react's state property.
@@ -82,19 +83,32 @@ class Auth extends Component {
     return isValid;
   }
 
+  // inputChangedHandler = (event, controlName) => {
+  //   const updatedControls = {
+  //     //  for that given control name and distribute all these properties so that I can then overwrite some of the properties
+  //     ...this.state.controls,
+  //     [controlName]: {
+  //       ...this.state.controls[controlName],
+  //       value: event.target.value,
+  //       valid: this.checkValidity(
+  //         event.target.value, 
+  //         this.state.controls[controlName].validation),
+  //       touched: true
+  //     }
+  //   }
+  //   this.setState({controls: updatedControls});
+  // }
+
   inputChangedHandler = (event, controlName) => {
-    const updatedControls = {
-      //  for that given control name and distribute all these properties so that I can then overwrite some of the properties
-      ...this.state.controls,
-      [controlName]: {
-        ...this.state.controls[controlName],
+    const updatedControls = updateObject(this.state.controls, {
+      [controlName]: updateObject(this.state.controls[controlName], {
         value: event.target.value,
         valid: this.checkValidity(
           event.target.value, 
           this.state.controls[controlName].validation),
         touched: true
-      }
-    }
+      })
+    }) 
     this.setState({controls: updatedControls});
   }
 
