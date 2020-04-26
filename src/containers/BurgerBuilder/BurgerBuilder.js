@@ -20,7 +20,8 @@ import * as actions from '../../store/actions/index';
 //   meat: 1.3
 // }
 
-class BurgerBuilder extends Component {
+//  what we really need to do is we need to get access to the component behind this container so to say and one convenient trick is to simply export this burger builder class, so simply add the export statement in front of this. This now gives us a named export in this file, burger builder which gets access to this class which is just a react component and we still have the default export we still have in our app but now we can write a testing file, BurgerBuilder.test.js
+export class BurgerBuilder extends Component {
   // redux-1 asamasinda state icindeki bu kodu kaldirdik
   // ingredients: null, 
   // totalPrice: 4,
