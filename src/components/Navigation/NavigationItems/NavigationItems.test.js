@@ -46,6 +46,14 @@ describe('<NavigationItems />', () => {
     wrapper.setProps({isAuthenticated: true});
     expect(wrapper.find(NavigationItem)).toHaveLength(3);
   });
+
+  //contains helper because the contains helper, unlike find does not take an element type or a css selector to be precise, there as you can see for find, you could also use class selectors but contains takes a real node and you can therefore check if you have a exact match.
+  it('should render three <NavigationItem /> elements if authenticated', () => {
+    // if this test also assumes authentication, then we have to repeat wrapper.setProps in there. Now with that, the test succeeds
+    wrapper.setProps({isAuthenticated: true});
+    // with that, I'm checking if that is really part of the wrapper, I can check if this is two equal true, so I want to find it if we are authenticated.
+    expect(wrapper.contains(<NavigationItem link='/logout'>Logout</NavigationItem>)).toEqual(true);
+  });
 });
 
 // it will have isAuthenticated set to false because we're not passing this prop, remember? We're just shallowly rendering navigation items, we're not sending any props here.
